@@ -98,7 +98,7 @@ CacheProxy должен тоже принимать в конструкторе 
 > Loader loader = cacheProxy.cache(new LoaderImpl());
 
 ## 9. Лямбда функции, стримы
-Реализовать класс похожий на java.util.stream.Stream (http://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html)
+Реализовать класс похожий на java.util.stream.Stream (http://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html).
 Использование этого класса должно выглядеть примерно так:
 > List<Person> someCollection = ...   
 > Map m = Streams.of(someCollection)  
