@@ -120,6 +120,53 @@ CacheProxy должен тоже принимать в конструкторе 
 исполнения этого задания. При отсутствии задания в
 очереди, количество потоков опять должно быть уменьшено до значения min.
 
+## 12. Модель памяти в Java
+12.1. Ваша задача реализовать класс Task имеющий один метод get():
+> public class Task<T> {  
+&nbsp;&nbsp;&nbsp;&nbsp;    …  
+&nbsp;&nbsp;&nbsp;&nbsp;     public Task(Callable<? extends T> callable) {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         //...    
+&nbsp;&nbsp;&nbsp;&nbsp;      }  
+&nbsp;&nbsp;&nbsp;&nbsp;     public T get() {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         // todo implement me  
+&nbsp;&nbsp;&nbsp;&nbsp;     }  
+ }
+ 
+Данный класс в конструкторе принимает экземпляр java.util.concurrent.Callable.
+Callable похож на Runnuble, но результатом его работы является объект (а не void).
+Ваша задача реализовать метод get() который возвращает результат работы Callable.
+Выполнение callable должен начинать тот поток, который первый вызвал метод get().  
+Если несколько потоков одновременно вызывают этот метод, то выполнение должно
+начаться только в одном потоке, а остальные должны ожидать конца выполнения
+(не нагружая процессор).  
+Если при вызове get() результат уже просчитан, то он должен вернуться сразу,
+(даже без задержек на вход в синхронизированную область).  
+Если при просчете результата произошел Exception, то всем потокам при вызове get(),
+надо кидать этот Exception, обернутый в ваш RuntimeException (подходящее название своему ексепшену придумайте сами).
 
+12.2. Ваша задача реализовать интерфейс ExecutionManager
+> public interface ExecutionManager {  
+&nbsp;&nbsp;&nbsp;&nbsp;     Context execute(Runnable callback, Runnable... tasks);  
+ }
 
+Метод execute принимает массив тасков, это задания которые
+ExecutionManager должен выполнять параллельно (в вашей реализации
+пусть будет в своем пуле потоков). После завершения всех тасков
+должен выполниться callback (ровно 1 раз).  
+Метод execute – это неблокирующий метод, который сразу возвращает
+объект Context. Context это интерфейс следующего вида:
+
+> public interface Context {  
+&nbsp;&nbsp;&nbsp;&nbsp;     int getCompletedTaskCount();  
+&nbsp;&nbsp;&nbsp;&nbsp;     int getFailedTaskCount();  
+&nbsp;&nbsp;&nbsp;&nbsp;     int getInterruptedTaskCount();  
+&nbsp;&nbsp;&nbsp;&nbsp;     void interrupt();  
+&nbsp;&nbsp;&nbsp;&nbsp;     boolean isFinished();  
+}
+
+ Метод getCompletedTaskCount() возвращает количество тасков, которые на текущий момент успешно выполнились.  
+ Метод getFailedTaskCount() возвращает количество тасков, при выполнении которых произошел Exception.  
+ Метод interrupt() отменяет выполнения тасков, которые еще не начали выполняться.  
+ Метод getInterruptedTaskCount() возвращает количество тасков, которые не были выполены из-за отмены (вызовом предыдущего метода).  
+ Метод isFinished() вернет true, если все таски были выполнены или отменены, false в противном случае.  
 
