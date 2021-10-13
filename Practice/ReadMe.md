@@ -186,9 +186,11 @@ Tools\Plugins\Available Plugis плагин: Visual GC
 а только тот элемент который в данный момент добавляется или удаляется.
 
 ## 15. Паттерны проектирования, SOLID
-Рефакторить код
+Рефакторить код.  
 15.1 https://bitbucket.org/agoshkoviv/patterns-homework-1/src/69a61334ea43ff4c3fd950a00095377cf1e3bfd4/src/main/java/ru/sbt/test/refactoring/?at=master
-(применен паттерн состояние (state))
+(применен паттерн состояние (state))  
+15.2. https://bitbucket.org/agoshkoviv/solid-homework/src/099989b0c76217689c4642242c87c1ac080dfc01/src/main/java/ru/sbt/bit/ood/solid/homework/SalaryHtmlReportNotifier.java?at=master&fileviewer=file-view-default
+(применены SOLID принципы)
 
 ## 16. Работа с базами данных в Java
 Разработать продвинутый кэш, который помнит о
