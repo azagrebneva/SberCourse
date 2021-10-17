@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p th:text="#{greetings(${recipientName})}"></p>
+<p th:text="${text}"></p>
+<p>
+  <span th:text="#{regards}"></span> <br/>
+  <em th:text="#{signature}"></em> <br/>
+  <img src="cid:attachment.png"/>
+</p>
+</body>
+</html>
