@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New credit card</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/customers/{id}/card/new(id=${card.getCustomer().getId()})}" th:object="${card}">
+    <label for="number">Enter number: </label>
+    <input type="text" th:field="*{number}" id="number"/>
+    <div style="color:red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Name Error</div>
+    <br/>
+    <label for="cvv">Enter cvv: </label>
+    <input type="text" th:field="*{cvv}" id="cvv"/>
+    <div style="color:red" th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}">Name Error</div>
+    <br/>
+    <label for="dateOfIssue">Enter date of issue: </label>
+    <input type="date" th:field="*{dateOfIssue}" id="dateOfIssue"/>
+    <div style="color:red" th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{dateOfIssue}">Name Error</div>
+    <br/>
+    <label for="cardExpiryDate">Enter card expiry date: </label>
+    <input type="date" th:field="*{cardExpiryDate}" id="cardExpiryDate"/>
+    <div style="color:red" th:if="${#fields.hasErrors('cardExpiryDate')}" th:errors="*{cardExpiryDate}">Name Error</div>
+    <br/>
+    <input type="submit" value="Save"/>
+</form>
+
+</body>
+</html>

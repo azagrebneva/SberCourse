@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show card</title>
+</head>
+<body>
+<div th:object="${card}">
+    <h3 th:text="${'Card owner: ' + card.getCustomer()}">Card owner</h3>
+    <hr>
+    <p th:text="${'Id: ' + card.getId()}">Id</p>
+    <p th:text="${'Number: ' + card.getNumber()}">Number</p>
+    <p th:text="${'Cvv: ' + card.getCvv()}">Cvv</p>
+    <p th:text="${'Date of issue: ' + #temporals.format(T(ru.zagrebneva.sbercourse.utils.DateConvertor)
+    .toLocaleDate(card.getDateOfIssue()), 'MM/yyyy')}">Date of issue</p>
+    <p th:text="${'Card expiry date: ' + #temporals.format(T(ru.zagrebneva.sbercourse.utils.DateConvertor)
+    .toLocaleDate(card.getCardExpiryDate()), 'MM/yyyy')}">Card expiry date</p>
+    <p th:text="${'Card status: ' + card.getStatus()}">Status</p>
+    <hr>
+    <form th:method="DELETE" th:action="@{/customers/{id}/card/{id_card}(id=${card.getCustomer().getId()}, id_card=${card.getId()})}">
+        <input type="submit" value="Delete"/>
+    </form>
+</div>
+
+</body>
+</html>

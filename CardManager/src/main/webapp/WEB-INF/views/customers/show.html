@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show customer</title>
+</head>
+<body>
+<h1 style="font-weight:bold" th:text="${customer.getName() + ' ' + customer.getMiddleName() +
+    ' ' + customer.getSurname()}">VALUE</h1>
+<p th:text="${'Id: ' + customer.getId()}">VALUE</p>
+<p th:text="${'Date of birth: ' + #temporals.format(
+        T(ru.zagrebneva.sbercourse.utils.DateConvertor)
+        .toLocaleDate(customer.getBirthday()), 'dd.MM.yyyy')}"></p>
+<p th:text="${'E-mail: ' + customer.getEmail()}">VALUE</p>
+
+<hr>
+
+<table  th:if="${!customer.getCards().isEmpty()}">
+    <tr>
+        <td style="font-weight:bold">Card number</td>
+        <td style="font-weight:bold">Expiry date</td>
+    </tr>
+    <br>
+    <tr th:each="card : ${customer.getCards()}">
+        <td><a th:href="@{/customers/{id}/card/{card_id}(id=${customer.getId()}, card_id=${card.getId()})}"
+               th:text="${card.getNumber()}">card number</a></td>
+        <td th:text="${#temporals.format(T(ru.zagrebneva.sbercourse.utils.DateConvertor)
+           .toLocaleDate(card.getCardExpiryDate()), 'MM/yyyy')
+           }">card expiry date
+        </td>
+    </tr>
+</table>
+<br>
+<form th:method="GET"
+      th:action="@{/customers/{id}/card/new(id=${customer.getId()})}">
+    <input type="submit" value="Create new card"/>
+</form>
+<br>
+<hr>
+<br>
+<form th:method="GET" th:action="@{/customers/{id}/edit(id=${customer.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
+<br>
+<form th:method="DELETE" th:action="@{/customers/{id}(id=${customer.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+<!--<a th:href="@{/customers/{id}/edit(id=${customer.getId()})}">Edit</a>-->
+<!--<br>-->
+<!--<a th:href="@{/customers/{id}/card/new(id=${customer.getId()})}">Create new card</a>-->
+</body>
+</html>
