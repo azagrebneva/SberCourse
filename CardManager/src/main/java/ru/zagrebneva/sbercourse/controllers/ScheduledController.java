@@ -35,20 +35,16 @@ public class ScheduledController {
         emailService = context.getBean("emailService", EmailServiceImpl.class);
     }
 
-    @Scheduled(fixedRate= 10_000)
+    //@Scheduled(fixedRate= 10_000)
     @Async
-    //@Scheduled(cron = "${interval-in-cron}")
+    @Scheduled(cron = "${interval-in-cron}")
     public void ScheduledFixedRate(){
         List<List<?>> lists = customerDAO.getExpiredСards(new Date());
 
         for (List<?> list: lists) {
             Card card = (Card) list.get(0);
             Customer customer = (Customer) list.get(1);
-            System.out.println(card + " " + customer);
-            //emailService.sendExpiredCardMessage(card, customer);
+            emailService.sendExpiredCardMessage(card, customer);
         }
-
-        System.out.println("computing price at "+ LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-        System.out.println("I will execute after evey 5 seconds");
     }
 }
